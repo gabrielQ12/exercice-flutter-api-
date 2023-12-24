@@ -1,6 +1,8 @@
 
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
+import '../model/GeoPosition.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 
 class LocationService {
   // Get position
@@ -15,6 +17,24 @@ class LocationService {
   }
 
   // Convertir position en ville
+
+  Future<GeoPosition?>  getCity() async {
+    final position = await getPosition();
+    if (position == null) return null;
+    final lat = position.latitude ?? 0.0;
+    final lon = position.longitude ?? 0.0;
+    List<geocoding.Placemark> placemarks = await geocoding.placemarkFromCoordinates(lat, lon);
+    print(placemarks);
+    final fistChoice = placemarks.first;
+    final GeoPosition geoPosition = GeoPosition(
+        city: fistChoice.locality ?? "",
+        lat: lat,
+        lon: lon,
+    );
+    return geoPosition;
+  }
+
+
 
   // Convertir ville en position
 }

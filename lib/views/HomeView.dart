@@ -1,4 +1,5 @@
 
+import 'package:exercice_flutter_api/model/GeoPosition.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
@@ -12,7 +13,7 @@ class HomeView extends StatefulWidget {
 
 class HomeState extends State<HomeView> {
 
-  LocationData?  locationData;
+  GeoPosition?  userPosition;
 
   @override
   void initState() {
@@ -23,16 +24,16 @@ class HomeState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:Text("Ma météo"),),
-      body: Center(child: Text("Notre position : \n ${locationData?.latitude} \n ${locationData?.longitude}"),),
+      appBar: AppBar(title:Text(userPosition?.city ?? "Ma météo"),),
+      body: Center(child: Text("Notre position : \n ${userPosition?.lat} \n ${userPosition?.lon}"),),
     );
   }
 
   getUserLocation() async {
-    final loc = await LocationService().getPosition();
+    final loc = await LocationService().getCity();
     if (loc != null) {
       setState(() {
-        locationData = loc;
+        userPosition = loc;
       });
     }
   }
