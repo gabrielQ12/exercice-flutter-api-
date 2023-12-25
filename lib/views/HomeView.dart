@@ -1,4 +1,5 @@
 
+import 'package:exercice_flutter_api/model/APIResponse.dart';
 import 'package:exercice_flutter_api/model/GeoPosition.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -15,6 +16,7 @@ class HomeView extends StatefulWidget {
 class HomeState extends State<HomeView> {
 
   GeoPosition?  userPosition;
+  APIResponse?  apiResponse;
 
   @override
   void initState() {
@@ -26,7 +28,7 @@ class HomeState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title:Text(userPosition?.city ?? "Ma météo"),),
-      body: Center(child: Text("Notre position : \n ${userPosition?.lat} \n ${userPosition?.lon}"),),
+      body: Center(child: Text("Notre réponse : ${apiResponse?.cnt ??0}"),),
     );
   }
 
@@ -35,7 +37,10 @@ class HomeState extends State<HomeView> {
     if (loc != null) {
       setState(() {
         userPosition = loc;
-        ApiService().callApi(userPosition!);
+      });
+      apiResponse = await ApiService().callApi(userPosition!);
+      setState(() {
+
       });
     }
   }

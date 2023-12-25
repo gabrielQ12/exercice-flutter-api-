@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:exercice_flutter_api/model/APIResponse.dart';
 import 'package:http/http.dart';
 
 import '../model/GeoPosition.dart';
@@ -21,12 +22,12 @@ class ApiService {
     return "$baseUrl?$lat$geoLat&$lon$geoLon&$units&$lang&$appid$API";
   }
 
-  Future<Null> callApi(GeoPosition position) async {
+  Future<APIResponse> callApi(GeoPosition position) async {
     final queryString = prepareQuery(position);
     final uri = Uri.parse(queryString);
     final call = await get(uri);
     Map<String, dynamic> map = json.decode(call.body);
-    print(map);
+    return APIResponse.fromJson(map);
   }
 
 
