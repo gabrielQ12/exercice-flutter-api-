@@ -3,6 +3,7 @@ import 'package:exercice_flutter_api/model/GeoPosition.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
+import '../services/ApiService.dart';
 import '../services/LocationService.dart';
 
 class HomeView extends StatefulWidget {
@@ -34,6 +35,7 @@ class HomeState extends State<HomeView> {
     if (loc != null) {
       setState(() {
         userPosition = loc;
+        ApiService().callApi(userPosition!);
       });
     }
   }
